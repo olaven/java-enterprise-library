@@ -1,10 +1,9 @@
-package entities.mocker;
+package entity.mocker;
 
-import entities.Author;
-import entities.Book;
+import entity.Author;
+import entity.Book;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AuthorMocker extends Mocker<Author> {
 

@@ -1,7 +1,4 @@
-package entities.mocker;
-
-import entities.Author;
-import entities.Book;
+package entity.mocker;
 
 import java.util.ArrayList;
 import java.util.List;

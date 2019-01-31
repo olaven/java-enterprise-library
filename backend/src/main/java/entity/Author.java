@@ -1,9 +1,6 @@
-package entities;
+package entity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class Author extends Person {
     public static final String GET_AUTHORS = "GET_AUTHORS";
     public static final String GET_WITH_ID = "GET_WITH_ID";
 
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany
     @NotNull
     private List<Book> books;
 

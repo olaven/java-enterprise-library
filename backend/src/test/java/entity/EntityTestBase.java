@@ -1,7 +1,7 @@
-package entities;
+package entity;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,23 +11,24 @@ import java.util.function.Consumer;
 
 public class EntityTestBase {
 
+    // these fields are accessed through executeInTransaction by subclassses
     protected EntityManagerFactory factory;
     protected EntityManager entityManager;
 
-    @BeforeEach
-    protected void init() {
+    @Before
+    public void init() {
         factory = Persistence.createEntityManagerFactory("testDB");
         entityManager = factory.createEntityManager();
     }
 
-    @AfterEach
-    protected void tearDown() {
+    @After
+    public void tearDown() {
         factory.close();
         entityManager.close();
     }
 
 
-    protected boolean canPersist(Object... objects) {
+    protected boolean doPersist(Object... objects) {
 
         try {
             executeInTransaction(entityManager -> {

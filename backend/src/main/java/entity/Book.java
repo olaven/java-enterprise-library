@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 import org.hibernate.annotations.Cascade;
 import static org.hibernate.annotations.CascadeType.PERSIST;
@@ -10,13 +10,17 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Book.GET_BOOKS, query = "select book from Book book")
+        @NamedQuery(name = Book.GET_BOOKS, query = "select book from Book book"),
+        @NamedQuery(name = Book.GET_BOOK_BY_ID, query = "select book from Book book where book.id = :id"),
+        @NamedQuery(name = Book.REMOVE_BOOK_BY_ID, query = "delete from Book book where book.id = :id")
 })
 
 @Entity
 public class Book {
 
     public final static String GET_BOOKS = "GET_BOOKS";
+    public final static String GET_BOOK_BY_ID = "GET_BOOK_BY_ID";
+    public final static String REMOVE_BOOK_BY_ID = "REMOVE_BOOK_BY_ID";
 
     @Id
     @GeneratedValue
@@ -29,7 +33,7 @@ public class Book {
     @Size(max = 120)
     private String title;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY) // is default
     @NotNull
     @Cascade(value = PERSIST)
     private List<Author> authors;
@@ -67,5 +71,15 @@ public class Book {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn=" + isbn +
+                ", title='" + title + '\'' +
+                ", authors=" + authors +
+                '}';
     }
 }

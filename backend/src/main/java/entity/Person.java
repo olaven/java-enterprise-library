@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +11,7 @@ public class Person {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @NotBlank
     @Size(max = 120)
@@ -24,11 +24,11 @@ public class Person {
     public Person() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

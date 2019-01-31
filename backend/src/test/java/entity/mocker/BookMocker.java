@@ -1,9 +1,8 @@
-package entities.mocker;
+package entity.mocker;
 
-import entities.Author;
-import entities.Book;
+import entity.Author;
+import entity.Book;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,8 +16,10 @@ public class BookMocker extends Mocker<Book> {
 
     @Override
     public Book getOne() {
-        List<Author> authors = new AuthorMocker().getMany(2);
         Random random = new Random();
+        int authorCount = random.nextInt(3) + 1; // +1 avoids 0 authors
+        List<Author> authors = new AuthorMocker().getMany(authorCount);
+
 
         Book book = new Book();
         book.setAuthors(authors);

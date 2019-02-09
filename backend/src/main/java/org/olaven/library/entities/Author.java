@@ -1,34 +1,41 @@
-package entity;
+package org.olaven.library.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
-@MappedSuperclass
-public class Person {
+@Entity
+public class Author {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 2, max = 100)
     private String givenName;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 2, max = 100)
     private String familyName;
 
-    public Person() {
+    @NotNull
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books;
+
+    public Author() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -46,5 +53,13 @@ public class Person {
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

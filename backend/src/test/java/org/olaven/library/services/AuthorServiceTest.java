@@ -64,7 +64,7 @@ class AuthorServiceTest {
         });
     }
 
-    @Test @Ignore //TODO: tar ikke høyde for lazy loading 
+    @Test @Ignore //TODO: tar ikke høyde for lazy loading
     public void testCanGetBook() {
         BookMocker bookMocker = new BookMocker();
         List<Book> books = bookMocker.getMany(20);

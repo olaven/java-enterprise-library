@@ -1,58 +1,26 @@
 package org.olaven.library.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = Author.GET_ALL_AUTHORS, query = "select author from Author author")//,
+        //@NamedQuery(name = Author.GET_BOOKS_BY_AUTHOR_ID, query = "select book from Book book where book.author.id = :id")// TODO: MANGE TIL MANGE, tror jeg trenger subquery
+})
 @Entity
-public class Author {
+public class Author extends Person {
 
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @NotBlank
-    @Size(min = 2, max = 100)
-    private String givenName;
-
-    @NotBlank
-    @Size(min = 2, max = 100)
-    private String familyName;
+    public static final String GET_ALL_AUTHORS = "GET_ALL_AUTHORS";
+    public static final String GET_BOOKS_BY_AUTHOR_ID = "GET_BOOKS_BY_AUTHOR_ID";
 
     @NotNull
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 
     public Author() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getGivenName() {
-        return givenName;
-    }
-
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
-    }
-
-    public String getFamilyName() {
-        return familyName;
-    }
-
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
     }
 
     public List<Book> getBooks() {

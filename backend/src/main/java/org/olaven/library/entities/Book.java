@@ -8,13 +8,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Book {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @NotNull
+    private String isbn;
 
     @NotBlank
     @Size(min = 2, max = 40)
@@ -27,12 +28,12 @@ public class Book {
     public Book() {
     }
 
-    public int getId() {
-        return id;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -49,5 +50,20 @@ public class Book {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return Objects.equals(getIsbn(), book.getIsbn()) &&
+                Objects.equals(getTitle(), book.getTitle()) &&
+                Objects.equals(getAuthors(), book.getAuthors());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIsbn(), getTitle(), getAuthors());
     }
 }

@@ -1,12 +1,13 @@
-package org.olaven.library;
+package org.olaven.library.mocker;
 
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
 
 import java.util.ArrayList;
 
-public class AuthorMocker {
-    public static Author getValidAuthor() {
+public class AuthorMocker extends Mocker<Author> {
+
+    public Author getOne() {
         Author author = new Author();
 
         author.setGivenName("given name");

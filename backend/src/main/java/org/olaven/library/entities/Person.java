@@ -1,17 +1,17 @@
 package org.olaven.library.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Entity
-public abstract class Person {
+@Embeddable
+public class Person {
 
-    @Id
-    @GeneratedValue
-    private long id;
+    /*
+     * Person could also be extended instead
+     * of embedded, however, I wanted to showcase
+     * @Embeddable
+     */
 
     @NotBlank
     @Size(min = 2, max = 100)
@@ -24,13 +24,6 @@ public abstract class Person {
     public Person() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getGivenName() {
         return givenName;

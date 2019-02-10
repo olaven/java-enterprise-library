@@ -22,8 +22,18 @@ public class AuthorService {
     }
 
     @Transactional
-    public Author getAuthor(long id) {
-        return entityManager.find(Author.class, id);
+    public Author getAuthor(long id, boolean withBooks) {
+
+        Author author = entityManager.find(Author.class, id);
+
+        if (!withBooks) {
+            return author;
+        }
+
+        // calling something to fetch, as fetctype is lazy
+        author.getBooks().size();
+
+        return author;
     }
 
     @Transactional

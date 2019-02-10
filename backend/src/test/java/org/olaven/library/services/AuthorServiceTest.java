@@ -1,11 +1,10 @@
 package org.olaven.library.services;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
 import org.olaven.library.mocker.AuthorMocker;
-import org.olaven.library.entities.Author;
 import org.olaven.library.mocker.BookMocker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +39,7 @@ class AuthorServiceTest {
         Author author = authorMocker.getOne();
         authorService.persistAuthor(author);
 
-        Author retrieved = authorService.getAuthor(author.getId());
+        Author retrieved = authorService.getAuthor(author.getId(), false);
         assertNotNull(retrieved);
     }
 
@@ -57,15 +56,15 @@ class AuthorServiceTest {
     @Test
     public void testAuthorWithInvalidNamesAreNotpersisted() {
         Author author = authorMocker.getOne();
-        author.setGivenName("x"); // has to be >=2
+        author.getPerson().setGivenName("x"); // has to be >=2
 
         assertThrows(Exception.class, () -> {
             authorService.persistAuthor(author);
         });
     }
 
-    @Test @Ignore //TODO: tar ikke høyde for lazy loading
-    public void testCanGetBook() {
+    @Test
+    public void testBooksAreLoadedLazily() {
         BookMocker bookMocker = new BookMocker();
         List<Book> books = bookMocker.getMany(20);
 
@@ -74,12 +73,18 @@ class AuthorServiceTest {
 
         authorService.persistAuthor(author);
 
-        Author retrieved = authorService.getAuthor(author.getId());
+        Author withoutBooks = authorService.getAuthor(author.getId(), false);
+        Author withBooks = authorService.getAuthor(author.getId(), true);
 
-        for (int i = 0; i < author.getBooks().size(); i++) {
-            assertEquals(author.getBooks().get(i), retrieved.getBooks().get(i));
-        }
+        assertThrows(Exception.class, () -> {
+            withoutBooks.getBooks().size();
+        });
+
+        // to exception
+        withBooks.getBooks().size();
+
     }
+
 
     private void persistSeveral(int n) {
         for (Author author : authorMocker.getMany(n)) {

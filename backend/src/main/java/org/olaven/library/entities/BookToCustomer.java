@@ -6,11 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class LendingInfo {
+public class BookToCustomer {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long Id;
 
     @ManyToOne
     private Book book;

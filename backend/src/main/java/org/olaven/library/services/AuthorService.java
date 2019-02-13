@@ -44,13 +44,4 @@ public class AuthorService {
 
         return authors;
     }
-
-    @Transactional
-    public List<Book> getBooks(long authorId) {
-
-        Query query = entityManager.createNamedQuery(Author.GET_BOOKS_BY_AUTHOR_ID, Book.class);
-        query.setParameter("id", authorId);
-
-        return query.getResultList(); 
-    }
 }

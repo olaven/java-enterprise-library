@@ -1,18 +1,26 @@
 package org.olaven.library.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries({
+        @NamedQuery(name = Book.GET_ALL_BOOKS, query = "select book from Book book"),
+        @NamedQuery(name = Book.GET_BOOK_BY_ID, query = "select book from Book book where book.id = :id")
+})
 @Entity
 public class Book {
 
+    public static final String GET_ALL_BOOKS = "GET_ALL_BOOKS";
+    public static final String GET_BOOK_BY_ID = "GET_BOOK_BY_ID";
+
     @Id
+    @GeneratedValue
+    private long id;
+
     @NotNull
     private String isbn;
 
@@ -23,6 +31,9 @@ public class Book {
     @NotNull
     @ManyToMany
     private List<Author> authors;
+
+    @ManyToOne
+    private Customer lender;
 
     public Book() {
     }
@@ -49,6 +60,22 @@ public class Book {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Customer getLender() {
+        return lender;
+    }
+
+    public void setLender(Customer lender) {
+        this.lender = lender;
     }
 
     @Override

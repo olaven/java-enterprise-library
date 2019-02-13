@@ -6,7 +6,7 @@ JEE-applciation for a library. Written as a hobby project to complement
 
 Plan: 
 Go through every topic thoroughly in Spring.
-- [ ] Lesson 1
+- [X] Lesson 1
 - [ ] Lesson 2
 - [ ] Lesson 3
 - [ ] Lesson 4
@@ -19,4 +19,7 @@ Go through every topic thoroughly in Spring.
 - [ ] Lesson 11
 - [ ] Lesson 12
 
+
+my own annotation for test config? 
+Also make test for lending and edge-cases
  

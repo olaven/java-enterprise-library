@@ -11,7 +11,13 @@ public class CustomerService {
     @Autowired
     EntityManager entityManager;
 
-    public void lendBook() {
-        
+    @Autowired
+    BookService bookService;
+
+    public void lendBook(long bookId) {
+
+        // get the book
+        // make sure that book is not lended (throw checked exception if is)
+        // lend book to user
     }
 }

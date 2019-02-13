@@ -6,11 +6,12 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Author.GET_ALL_AUTHORS, query = "select author from Author author")//,
-        //@NamedQuery(name = Author.GET_BOOKS_BY_AUTHOR_ID, query = "select book from Book book where book.author.id = :id")// TODO: MANGE TIL MANGE, tror jeg trenger subquery
+        @NamedQuery(name = Author.GET_ALL_AUTHORS, query = "select author from Author author")
 })
 @Entity
 public class Author{
+
+    public static final String GET_ALL_AUTHORS = "GET_ALL_AUTHORS";
 
     @Id
     @GeneratedValue
@@ -19,9 +20,6 @@ public class Author{
     @Embedded
     @Valid // make sure that validation is run on embeddable as well
     private Person person;
-
-    public static final String GET_ALL_AUTHORS = "GET_ALL_AUTHORS";
-    public static final String GET_BOOKS_BY_AUTHOR_ID = "GET_BOOKS_BY_AUTHOR_ID";
 
     @NotNull
     @ManyToMany(mappedBy = "authors")

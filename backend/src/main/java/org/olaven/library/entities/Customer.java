@@ -15,7 +15,7 @@ public class Customer {
     @Valid // make sure that validation is run on embeddable as well
     private Person person;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lender")
     private List<Book> lendedBooks;
 
     public Customer() {

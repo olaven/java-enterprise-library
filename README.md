@@ -22,4 +22,6 @@ Go through every topic thoroughly in Spring.
 
 my own annotation for test config? 
 Also make test for lending and edge-cases
+A scheduled startup-bean sending messages to people 
+who have not delivered their book on time  
  

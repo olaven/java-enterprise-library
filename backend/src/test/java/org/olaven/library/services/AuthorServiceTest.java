@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -27,21 +29,17 @@ class AuthorServiceTest {
 
 
     @Test
-    public void testCanPersistAuthor() {
-
-        Author author = authorMocker.getOne();
-        authorService.persistAuthor(author);
-    }
-
-    @Test
-    public void testCanRetrieveAuthor() {
+    public void testCanPersistAndRetrieveAuthor() {
 
         Author author = authorMocker.getOne();
         authorService.persistAuthor(author);
 
-        Author retrieved = authorService.getAuthor(author.getId(), false);
-        assertNotNull(retrieved);
+        Author retrieved = authorService.getAllAuthors().get(0);
+
+        assertThat(retrieved)
+                .isNotNull();
     }
+
 
     @Test
     public void testCanRetrieveAll() {
@@ -51,14 +49,17 @@ class AuthorServiceTest {
 
         List<Author> retrieved = authorService.getAllAuthors();
         assertEquals(n, retrieved.size());
+        assertThat(retrieved.size())
+                .isEqualTo(n);
     }
 
     @Test
     public void testAuthorWithInvalidNamesAreNotpersisted() {
+
         Author author = authorMocker.getOne();
         author.getPerson().setGivenName("x"); // has to be >=2
 
-        assertThrows(Exception.class, () -> {
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
             authorService.persistAuthor(author);
         });
     }
@@ -76,11 +77,11 @@ class AuthorServiceTest {
         Author withoutBooks = authorService.getAuthor(author.getId(), false);
         Author withBooks = authorService.getAuthor(author.getId(), true);
 
-        assertThrows(Exception.class, () -> {
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
             withoutBooks.getBooks().size();
         });
 
-        // to exception
+        // NOTE: no exception
         withBooks.getBooks().size();
 
     }

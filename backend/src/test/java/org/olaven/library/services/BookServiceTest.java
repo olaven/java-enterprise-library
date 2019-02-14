@@ -1,6 +1,7 @@
 package org.olaven.library.services;
 
 import org.junit.Ignore;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.olaven.library.entities.Author;
@@ -36,9 +37,13 @@ public class BookServiceTest {
         long id = bookService.insertBook(title, isbn, new ArrayList<>());
         Book retrieved = bookService.getBookById(id);
 
-        assertEquals(title, retrieved.getTitle());
-        assertEquals(isbn, retrieved.getIsbn());
-        assertEquals(id, retrieved.getId());
+
+        assertThat(retrieved)
+                .hasFieldOrPropertyWithValue("title", title);
+        assertThat(retrieved)
+                .hasFieldOrPropertyWithValue("id", id);
+        assertThat(retrieved)
+                .hasFieldOrPropertyWithValue("isbn", isbn);
     }
 
 
@@ -53,10 +58,15 @@ public class BookServiceTest {
 
         List<Book> retrieved = bookService.getAllBooks();
 
-        assertEquals(n, retrieved.size());
-
+        assertThat(retrieved.size())
+                .isEqualTo(n);
     }
 
 
+    @Test
+    public void testCanGetBook() {
+        assertThat(true)
+                .isFalse(); // failing on purpose
+    }
     //TODO: WAY MORE TESTS
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = Author.GET_ALL_AUTHORS, query = "select author from Author author")
@@ -50,5 +51,20 @@ public class Author{
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+        Author author = (Author) o;
+        return Objects.equals(getId(), author.getId()) &&
+                Objects.equals(getPerson(), author.getPerson()) &&
+                Objects.equals(getBooks(), author.getBooks());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPerson(), getBooks());
     }
 }

@@ -42,7 +42,7 @@ class AuthorServiceTest extends ServiceTestBase {
     public void testAuthorWithInvalidNamesAreNotpersisted() {
 
         Author author = authorMocker.getOne();
-        author.getPerson().setGivenName("x"); // has to be >=2
+        author.setGivenName("x"); // has to be >=2
 
         assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
             authorService.persistAuthor(author);

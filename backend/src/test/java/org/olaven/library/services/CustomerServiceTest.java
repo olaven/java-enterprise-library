@@ -11,7 +11,11 @@ class CustomerServiceTest extends ServiceTestBase {
     @Test
     public void testBookCanBeLended() {
 
-        throw  new NotImplementedException(); 
+        Book book = bookMocker.getOne();
+        Customer customer = customerMocker.getOne();
+
+        long bookId = bookService.persistBook(book.getTitle(), book.getIsbn(), book.getAuthors());
+        long customerId = customerService.persistCustomer(customer.getGivenName(), customer.getFamilyName(), customer.getLendedBooks());
     }
 
     @Test

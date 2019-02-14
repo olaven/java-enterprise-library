@@ -45,7 +45,7 @@ public class BookService {
     }
 
     @Transactional
-    public long insertBook(String title, String isbn, List<Author> authors) {
+    public long persistBook(String title, String isbn, List<Author> authors) {
 
         Book book = new Book();
         book.setTitle(title);

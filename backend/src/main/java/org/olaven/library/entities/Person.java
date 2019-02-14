@@ -1,29 +1,42 @@
 package org.olaven.library.entities;
 
-import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Embeddable
+@MappedSuperclass
 public class Person {
 
     /*
-     * Person could also be extended instead
-     * of embedded, however, I wanted to showcase
-     * @Embeddable
+     * Could also use @Embeddable, however, as Person-properties
+     * are common to both author and customer, I believe @MappedSuperclass
+     * is more appropriate.
      */
 
-    @NotBlank
-    @Size(min = 2, max = 100)
-    private String givenName;
+    @Id
+    @GeneratedValue
+    protected long id;
 
     @NotBlank
     @Size(min = 2, max = 100)
-    private String familyName;
+    protected String givenName;
+
+    @NotBlank
+    @Size(min = 2, max = 100)
+    protected String familyName;
 
     public Person() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getGivenName() {
         return givenName;

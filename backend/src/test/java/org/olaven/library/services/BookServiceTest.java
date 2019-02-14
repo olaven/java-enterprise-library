@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
 import org.olaven.library.mocker.AuthorMocker;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class BookServiceTest extends ServiceTestBase {
         String title = "book title";
         String isbn = "isbnisbn";
 
-        long id = bookService.insertBook(title, isbn, new ArrayList<>());
+        long id = bookService.persistBook(title, isbn, new ArrayList<>());
         Book retrieved = bookService.getBookById(id, false);
 
 
@@ -40,7 +39,7 @@ public class BookServiceTest extends ServiceTestBase {
         int n = 20;
 
         for (int i = 0; i < n; i++) {
-            bookService.insertBook("title", "isbn", new ArrayList<>());
+            bookService.persistBook("title", "isbn", new ArrayList<>());
         }
 
         List<Book> retrieved = bookService.getAllBooks();
@@ -58,7 +57,7 @@ public class BookServiceTest extends ServiceTestBase {
             authorService.persistAuthor(author);
         }
 
-        long id = bookService.insertBook("some book", "isbn", authors);
+        long id = bookService.persistBook("some book", "isbn", authors);
 
         Book retrieved = bookService.getBookById(id, false);
         assertThatExceptionOfType(Exception.class).isThrownBy(() -> {

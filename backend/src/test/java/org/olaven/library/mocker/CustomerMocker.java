@@ -12,9 +12,8 @@ public class CustomerMocker extends Mocker {
 
         Customer customer = new Customer();
 
-        customer.setPerson(new Person());
-        customer.getPerson().setGivenName("given name");
-        customer.getPerson().setFamilyName("family name");
+        customer.setGivenName("given name");
+        customer.setFamilyName("family name");
         customer.setLendedBooks(new ArrayList<>());
 
         return customer;

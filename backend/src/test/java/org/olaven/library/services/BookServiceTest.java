@@ -1,32 +1,19 @@
 package org.olaven.library.services;
 
-import org.junit.Ignore;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
 import org.olaven.library.mocker.AuthorMocker;
-import org.olaven.library.mocker.BookMocker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class BookServiceTest {
-
-    @Autowired
-    private BookService bookService;
+public class BookServiceTest extends ServiceTestBase {
 
     @Test
     public void testCanInsertBook() {
@@ -35,7 +22,7 @@ public class BookServiceTest {
         String isbn = "isbnisbn";
 
         long id = bookService.insertBook(title, isbn, new ArrayList<>());
-        Book retrieved = bookService.getBookById(id);
+        Book retrieved = bookService.getBookById(id, false);
 
 
         assertThat(retrieved)
@@ -64,9 +51,23 @@ public class BookServiceTest {
 
 
     @Test
-    public void testCanGetBook() {
-        assertThat(true)
-                .isFalse(); // failing on purpose
+    public void testAuthorsAreLoadedLazily() {
+
+        List<Author> authors = new AuthorMocker().getMany(10);
+        for(Author author: authors) {
+            authorService.persistAuthor(author);
+        }
+
+        long id = bookService.insertBook("some book", "isbn", authors);
+
+        Book retrieved = bookService.getBookById(id, false);
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            retrieved.getAuthors().size();
+        });
+
+        Book withAuthors = bookService.getBookById(id, true);
+        withAuthors.getAuthors().size(); // NOTE: no exception!
     }
+
     //TODO: WAY MORE TESTS
 }

@@ -1,32 +1,17 @@
 package org.olaven.library.services;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
-import org.olaven.library.mocker.AuthorMocker;
 import org.olaven.library.mocker.BookMocker;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class AuthorServiceTest {
-
-    @Autowired
-    private AuthorService authorService;
-
-    private AuthorMocker authorMocker = new AuthorMocker();
-
+class AuthorServiceTest extends ServiceTestBase {
 
     @Test
     public void testCanPersistAndRetrieveAuthor() {

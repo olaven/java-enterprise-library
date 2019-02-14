@@ -2,6 +2,7 @@ package org.olaven.library.services;
 
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
+import org.olaven.library.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class BookService {
     }
 
     @Transactional
-    public Book getBookById(long id) {
+    public Book getBookById(long id, boolean withAuthors) {
 
         Query query = entityManager.createNamedQuery(Book.GET_BOOK_BY_ID, Book.class);
         query.setParameter("id", id);
@@ -32,13 +33,19 @@ public class BookService {
 
         if (results.isEmpty()) {
             return null;
-        } else {
-            return results.get(0);
         }
+
+        Book book = results.get(0);
+
+        if (withAuthors) {
+            book.getAuthors().size(); // invoking to load, as fetchtype = lazy
+        }
+
+        return book;
     }
 
     @Transactional
-    public long insertBook(String title, String isbn, ArrayList<Author> authors) {
+    public long insertBook(String title, String isbn, List<Author> authors) {
 
         Book book = new Book();
         book.setTitle(title);
@@ -47,5 +54,12 @@ public class BookService {
 
         entityManager.persist(book);
         return book.getId();
+    }
+
+    // Hypothesis: Method does not have to be transactional, as getBookById already is
+    public Customer getLender(long bookId) {
+
+        Book book = getBookById(bookId, false);
+        return book.getLender();
     }
 }

@@ -22,6 +22,6 @@ public class CustomerService {
         // get the book
         // make sure that book is not lended (throw checked exception if is)
         // lend book to user
-        Book book = bookService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId, false);
     }
 }

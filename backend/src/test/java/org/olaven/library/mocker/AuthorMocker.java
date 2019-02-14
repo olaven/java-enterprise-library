@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class AuthorMocker extends Mocker<Author> {
 
     public Author getOne() {
+
         Author author = new Author();
 
         author.setPerson(new Person());

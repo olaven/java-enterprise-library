@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.olaven.library.StringUtil.randomString;
+
 public class BookMocker extends Mocker<Book> {
 
     @Override
@@ -17,20 +19,8 @@ public class BookMocker extends Mocker<Book> {
         book.setIsbn(randomString(10));
         book.setTitle(randomString(5));
 
+
         return book;
-    }
-
-    private String randomString(int n) {
-
-        Random random = new Random();
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        String string = "";
-        for (int i = 0; i < n; i++) {
-            int index = random.nextInt(alphabet.length());
-            string= string + alphabet.charAt(index);
-        }
-
-        return string;
     }
 }
 

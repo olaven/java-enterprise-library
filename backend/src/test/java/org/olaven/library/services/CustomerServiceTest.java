@@ -16,6 +16,7 @@ class CustomerServiceTest extends ServiceTestBase {
 
         long bookId = bookService.persistBook(book.getTitle(), book.getIsbn(), book.getAuthors());
         long customerId = customerService.persistCustomer(customer.getGivenName(), customer.getFamilyName(), customer.getLendedBooks());
+
     }
 
     @Test
@@ -27,4 +28,15 @@ class CustomerServiceTest extends ServiceTestBase {
     public void testAvailableBooksMayBeLended() {
         throw new NotImplementedException();
     }
+
+    @Test
+    public void testEmailMustBeUnique() {
+        throw new NotImplementedException();
+    }
+
+    @Test
+    public void testEmailMustBeValid() {
+        throw new NotImplementedException();
+    }
+
 }

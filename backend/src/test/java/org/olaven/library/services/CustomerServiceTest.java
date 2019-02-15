@@ -5,38 +5,130 @@ import org.olaven.library.entities.Book;
 import org.olaven.library.entities.Customer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
+import static org.assertj.core.api.AssertionsForClassTypes.fail;
+
 
 class CustomerServiceTest extends ServiceTestBase {
 
     @Test
-    public void testBookCanBeLended() {
+    public void testCanPersistCustomer() {
 
-        Book book = bookMocker.getOne();
-        Customer customer = customerMocker.getOne();
+        long id = persistRandomCustomer();
 
-        long bookId = bookService.persistBook(book.getTitle(), book.getIsbn(), book.getAuthors());
-        long customerId = customerService.persistCustomer(customer.getGivenName(), customer.getFamilyName(), customer.getLendedBooks());
-
+        Customer retrieved = customerService.getCustomerById(id, false);
+        assertThat(retrieved)
+                .isNotNull();
     }
 
     @Test
-    public void testLendedBooksCannotBeLended() {
-        throw new NotImplementedException();
+    public void testLendedBooksAreLazilyLoaded() {
+
+        long id = persistRandomCustomer();
+
+        Customer without = customerService.getCustomerById(id, false);
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            without.getLendedBooks().size();
+        });
+
+        Customer with = customerService.getCustomerById(id, true);
+        try {
+            with.getLendedBooks().size();
+        } catch (Exception e) {
+            fail("Exception was thrown");
+        }
     }
 
     @Test
-    public void testAvailableBooksMayBeLended() {
-        throw new NotImplementedException();
+    public void testLendedBooksAreRegistered() throws InterruptedException {
+
+        long bookId = persistRandomBook();
+        long customerId = persistRandomCustomer();
+
+        customerService.lendBook(bookId, customerId);
+        Thread.sleep(200); // as lending is async, waiting to be sure
+
+        Customer customer = customerService.getCustomerById(customerId, true);
+
+        long found = customer.getLendedBooks().stream()
+                .filter(book -> book.getId() == bookId)
+                .count();
+
+        assertThat(found)
+                .isGreaterThan(0);
+    }
+
+    @Test
+    public void testBooksCannotBeLendedTwice() throws InterruptedException {
+
+        long bookId = persistRandomBook();
+        long customerId = persistRandomCustomer();
+
+        customerService.lendBook(bookId, customerId);
+        Thread.sleep(200);
+
+        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> {
+            customerService.lendBook(bookId, customerId);
+        });
     }
 
     @Test
     public void testEmailMustBeUnique() {
-        throw new NotImplementedException();
+
+        String mail = "duplicate@mail.com";
+        customerService.persistCustomer("some_given_name", "some_family_name", new ArrayList<>(), mail);
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            // Note: different except email!
+            customerService.persistCustomer("other_given_name", "other_family_name", new ArrayList<>(), mail);
+        });
     }
 
     @Test
     public void testEmailMustBeValid() {
-        throw new NotImplementedException();
+
+        try {
+            persistCustomerWithEmail("valid@mail.com");
+        } catch (Exception e) {
+            fail("exception was thrown");
+        }
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            persistCustomerWithEmail("invalid-email");
+        });
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            persistCustomerWithEmail("anotherInvalid@");
+        });
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            persistCustomerWithEmail("@nother@invalid.com");
+        });
+    }
+
+    private long persistRandomBook() {
+
+        Book mockBook = bookMocker.getOne();
+        long bookId = bookService.persistBook(mockBook.getTitle(), mockBook.getIsbn(), mockBook.getAuthors());
+
+        return bookId;
+    }
+
+    private long persistRandomCustomer() {
+
+        Customer mockCustomer = customerMocker.getOne();
+        long customerId = customerService.persistCustomer(mockCustomer.getGivenName(), mockCustomer.getFamilyName(), mockCustomer.getLendedBooks(), mockCustomer.getEmail());
+
+        return customerId;
+    }
+
+    private void persistCustomerWithEmail(String email) {
+
+        Customer mockCustomer = customerMocker.getOne();
+        customerService.persistCustomer(mockCustomer.getGivenName(), mockCustomer.getFamilyName(), mockCustomer.getLendedBooks(), email);
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -14,31 +15,57 @@ import java.util.List;
 public class CustomerService {
 
     @Autowired
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Async
-    public void lendBook(long bookId) {
+    @Transactional
+    public void lendBook(long bookId, long customerId) {
 
-        // get the book
-        // make sure that book is not lended (throw checked exception if is)
-        // lend book to user
         Book book = bookService.getBookById(bookId, false);
+        Customer customer = customerService.getCustomerById(customerId, true);
+
+        if (book.getLender() != null)
+            throw new IllegalStateException("Book already borrowed");
+
+        // have to update book (not customer), as book is the owner (i.e. "mapped by")
+        book.setLender(customer); // update reflected in db, as method is transactional
     }
 
     @Transactional
-    public long persistCustomer(String givenName, String familyName, List<Book> lendedBooks) {
+    public long persistCustomer(String givenName, String familyName, List<Book> lendedBooks, String email) {
 
         Customer customer = new Customer();
-        entityManager.persist(customer);
+
 
         // NOTE: showcasing that this still points to the same author, which is not _actually_ persisted(commited) yet
         customer.setGivenName(givenName);
         customer.setFamilyName(familyName);
         customer.setLendedBooks(lendedBooks);
+        customer.setEmail(email);
+
+        entityManager.persist(customer);
 
         return customer.getId();
+    }
+
+    @Transactional
+    public Customer getCustomerById(long id, boolean withLendedBooks) {
+
+        Query query = entityManager.createNamedQuery(Customer.GET_CUSTOMER_BY_ID, Customer.class);
+        query.setParameter("id", id);
+
+        Customer customer = (Customer) query.getSingleResult();
+
+        if (withLendedBooks) {
+            customer.getLendedBooks().size();
+        }
+
+        return customer;
     }
 }

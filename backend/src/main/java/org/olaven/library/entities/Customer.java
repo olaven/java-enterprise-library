@@ -7,9 +7,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = Customer.GET_CUSTOMER_BY_ID, query = "select customer from Customer customer where id = :id")
+})
 @Entity
 public class Customer extends Person {
 
+    public static final String GET_CUSTOMER_BY_ID = "GET_CUSTOMER_BY_ID";
     @Email
     @Column(unique = true)
     private String email;

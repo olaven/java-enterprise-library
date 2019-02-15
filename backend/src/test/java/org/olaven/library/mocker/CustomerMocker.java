@@ -1,8 +1,6 @@
 package org.olaven.library.mocker;
 
-import org.olaven.library.StringUtil;
 import org.olaven.library.entities.Customer;
-import org.olaven.library.entities.Person;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,7 @@ public class CustomerMocker extends Mocker {
         customer.setGivenName("given name");
         customer.setFamilyName("family name");
         customer.setLendedBooks(new ArrayList<>());
-        customer.setEmail(randomString(30));
+        customer.setEmail(randomString(5) + "@mail.com");
 
         return customer;
     }

@@ -15,7 +15,7 @@ public class CustomerMocker extends Mocker {
 
         customer.setGivenName("given name");
         customer.setFamilyName("family name");
-        customer.setLendedBooks(new ArrayList<>());
+        customer.setBorrowedBooks(new ArrayList<>());
         customer.setEmail(randomString(5) + "@mail.com");
 
         return customer;

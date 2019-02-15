@@ -33,7 +33,7 @@ public class Book {
     private List<Author> authors;
 
     @ManyToOne
-    private Customer lender;
+    private Customer borrower;
 
     public Book() {
     }
@@ -70,12 +70,12 @@ public class Book {
         this.id = id;
     }
 
-    public Customer getLender() {
-        return lender;
+    public Customer getBorrower() {
+        return borrower;
     }
 
-    public void setLender(Customer lender) {
-        this.lender = lender;
+    public void setBorrower(Customer borrower) {
+        this.borrower = borrower;
     }
 
     @Override

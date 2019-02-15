@@ -1,10 +1,7 @@
 package org.olaven.library.entities;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @NamedQueries({
@@ -18,18 +15,18 @@ public class Customer extends Person {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "lender")
-    private List<Book> lendedBooks;
+    @OneToMany(mappedBy = "borrower")
+    private List<Book> borrowedBooks;
 
     public Customer() {
     }
 
-    public List<Book> getLendedBooks() {
-        return lendedBooks;
+    public List<Book> getBorrowedBooks() {
+        return borrowedBooks;
     }
 
-    public void setLendedBooks(List<Book> lendedBooks) {
-        this.lendedBooks = lendedBooks;
+    public void setBorrowedBooks(List<Book> borrowedBooks) {
+        this.borrowedBooks = borrowedBooks;
     }
 
     public String getEmail() {

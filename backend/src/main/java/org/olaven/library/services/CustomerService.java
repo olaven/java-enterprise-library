@@ -25,20 +25,20 @@ public class CustomerService {
 
     @Async
     @Transactional
-    public void lendBook(long bookId, long customerId) {
+    public void borrowBook(long bookId, long customerId) {
 
         Book book = bookService.getBookById(bookId, false);
         Customer customer = customerService.getCustomerById(customerId, true);
 
-        if (book.getLender() != null)
+        if (book.getBorrower() != null)
             throw new IllegalStateException("Book already borrowed");
 
         // have to update book (not customer), as book is the owner (i.e. "mapped by")
-        book.setLender(customer); // update reflected in db, as method is transactional
+        book.setBorrower(customer); // update reflected in db, as method is transactional
     }
 
     @Transactional
-    public long persistCustomer(String givenName, String familyName, List<Book> lendedBooks, String email) {
+    public long persistCustomer(String givenName, String familyName, List<Book> borrowedBooks, String email) {
 
         Customer customer = new Customer();
 
@@ -46,7 +46,7 @@ public class CustomerService {
         // NOTE: showcasing that this still points to the same author, which is not _actually_ persisted(commited) yet
         customer.setGivenName(givenName);
         customer.setFamilyName(familyName);
-        customer.setLendedBooks(lendedBooks);
+        customer.setBorrowedBooks(borrowedBooks);
         customer.setEmail(email);
 
         entityManager.persist(customer);
@@ -55,15 +55,15 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer getCustomerById(long id, boolean withLendedBooks) {
+    public Customer getCustomerById(long id, boolean withBorrowedBooks) {
 
         Query query = entityManager.createNamedQuery(Customer.GET_CUSTOMER_BY_ID, Customer.class);
         query.setParameter("id", id);
 
         Customer customer = (Customer) query.getSingleResult();
 
-        if (withLendedBooks) {
-            customer.getLendedBooks().size();
+        if (withBorrowedBooks) {
+            customer.getBorrowedBooks().size();
         }
 
         return customer;

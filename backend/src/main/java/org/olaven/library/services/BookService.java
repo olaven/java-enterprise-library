@@ -2,14 +2,12 @@ package org.olaven.library.services;
 
 import org.olaven.library.entities.Author;
 import org.olaven.library.entities.Book;
-import org.olaven.library.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,12 +52,5 @@ public class BookService {
 
         entityManager.persist(book);
         return book.getId();
-    }
-
-    // Hypothesis: Method does not have to be transactional, as getBookById already is
-    public Customer getLender(long bookId) {
-
-        Book book = getBookById(bookId, false);
-        return book.getLender();
     }
 }

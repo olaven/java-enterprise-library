@@ -7,7 +7,7 @@ JEE-applciation for a library. Written as a hobby project to complement
 Plan: 
 Go through every topic thoroughly in Spring.
 - [X] Lesson 1
-- [ ] Lesson 2
+- [x] Lesson 2
 - [ ] Lesson 3
 - [ ] Lesson 4
 - [ ] Lesson 5

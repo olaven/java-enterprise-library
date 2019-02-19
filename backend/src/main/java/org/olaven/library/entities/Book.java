@@ -1,5 +1,7 @@
 package org.olaven.library.entities;
 
+import org.springframework.data.jpa.repository.Lock;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -83,13 +85,20 @@ public class Book {
         if (this == o) return true;
         if (!(o instanceof Book)) return false;
         Book book = (Book) o;
-        return Objects.equals(getIsbn(), book.getIsbn()) &&
-                Objects.equals(getTitle(), book.getTitle()) &&
-                Objects.equals(getAuthors(), book.getAuthors());
+        return getId() == book.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIsbn(), getTitle(), getAuthors());
+        return Objects.hash(getId(), getIsbn(), getTitle(), getAuthors(), getBorrower());
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn='" + isbn + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

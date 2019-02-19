@@ -25,16 +25,30 @@ public class CustomerService {
 
     @Async
     @Transactional
-    public void borrowBook(long bookId, long customerId) {
+    public void borrowBook(long bookId, long customerId) throws Exception {
 
         Book book = bookService.getBookById(bookId, false);
         Customer customer = customerService.getCustomerById(customerId, true);
 
         if (book.getBorrower() != null)
-            throw new IllegalStateException("Book already borrowed");
+            throw new Exception("Book already borrowed.");
 
         // have to update book (not customer), as book is the owner (i.e. "mapped by")
         book.setBorrower(customer); // update reflected in db, as method is transactional
+    }
+
+    @Async
+    @Transactional
+    public void deliverBook(long bookId, long customerId) throws Exception {
+
+        Book book = bookService.getBookById(bookId, false);
+        Customer customer = getCustomerById(customerId, true);
+
+        if (!customer.getBorrowedBooks().contains(book)) {
+            throw new Exception("Customer must borrow book to deliver it.");
+        }
+
+        book.setBorrower(null);
     }
 
     @Transactional
@@ -67,5 +81,14 @@ public class CustomerService {
         }
 
         return customer;
+    }
+
+    public List<Book> getBorrowedBooksByCustomerId(long id) {
+
+        Query query = entityManager.createNamedQuery(Customer.GET_BORROWED_BOOKS);
+        query.setParameter("id", id);
+        List<Book> books = query.getResultList();
+
+        return books;
     }
 }

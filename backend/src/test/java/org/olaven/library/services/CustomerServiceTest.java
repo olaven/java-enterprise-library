@@ -1,10 +1,12 @@
 package org.olaven.library.services;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.olaven.library.entities.Book;
 import org.olaven.library.entities.Customer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
@@ -40,7 +42,7 @@ class CustomerServiceTest extends ServiceTestBase {
     }
 
     @Test
-    public void testBorrowedBooksAreRegistered() throws InterruptedException {
+    public void testBorrowedBooksAreRegistered() throws Exception {
 
         long bookId = persistRandomBook();
         long customerId = persistRandomCustomer();
@@ -59,7 +61,7 @@ class CustomerServiceTest extends ServiceTestBase {
     }
 
     @Test
-    public void testBooksCannotBeBorrowedTwice() throws InterruptedException {
+    public void testBooksCannotBeBorrowedTwice() throws Exception {
 
         long bookId = persistRandomBook();
         long customerId = persistRandomCustomer();
@@ -67,10 +69,114 @@ class CustomerServiceTest extends ServiceTestBase {
         customerService.borrowBook(bookId, customerId);
         Thread.sleep(200);
 
-        assertThatExceptionOfType(IllegalStateException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
             customerService.borrowBook(bookId, customerId);
         });
     }
+
+    @Test
+    public void testCanDeliverBook() throws Exception {
+
+        long bookId = persistRandomBook();
+        long customerId = persistRandomCustomer();
+
+        customerService.borrowBook(bookId, customerId);
+
+        Customer beforeDelivery = customerService.getCustomerById(customerId, true);
+        assertThat(beforeDelivery.getBorrowedBooks()).asList()
+                .filteredOn("id", bookId)
+                .isNotEmpty();
+
+        customerService.deliverBook(bookId, customerId);
+        Customer afterDelivery = customerService.getCustomerById(customerId, true);
+        assertThat(afterDelivery.getBorrowedBooks()).asList()
+                .filteredOn("id", bookId)
+                .isEmpty();
+    }
+
+    @Test
+    public void testCannotDeliverBookWithoutBorrowing() {
+
+        long bookId = persistRandomBook();
+        long customerId = persistRandomCustomer();
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> {
+            customerService.deliverBook(bookId, customerId);
+        });
+    }
+
+    @Test
+    public void testDeliveringUpdatesBothCustomerAndBook() throws Exception {
+
+        long bookId = persistRandomBook();
+        long customerId = persistRandomCustomer();
+
+        // BEFORE BORROWING:
+        Book bookBefore = bookService.getBookById(bookId, false);
+        Customer customerBefore = customerService.getCustomerById(customerId, true);
+        assertThat(customerBefore.getBorrowedBooks()).asList()
+                .doesNotContain(bookBefore);
+        assertThat(bookBefore.getBorrower())
+                .isNull();
+
+        customerService.borrowBook(bookId, customerId);
+
+        // AFTER BORROWING:
+        Book bookAfter = bookService.getBookById(bookId, false);
+        Customer customerAfter = customerService.getCustomerById(customerId, true);
+
+        assertThat(customerAfter.getBorrowedBooks()).asList()
+                .contains(bookAfter);
+
+        assertThat(bookAfter.getBorrower())
+                .isNotNull();
+    }
+
+    @Test @Ignore
+    public void testCustomerMayBorrowMultipleBooks() throws Exception {
+
+        long customerId = persistRandomCustomer();
+
+        long firstBook = persistRandomBook();
+        long secondBook = persistRandomBook();
+        long thirdBook = persistRandomBook();
+
+        customerService.borrowBook(firstBook, customerId);
+        customerService.borrowBook(secondBook, customerId);
+        customerService.borrowBook(thirdBook, customerId);
+
+        List<Book> borrowed = customerService.getBorrowedBooksByCustomerId(customerId);
+        assertThat(borrowed).asList()
+                .size()
+                .isEqualTo(3);
+    }
+
+
+    @Test
+    public void canGetAllBorrowedBooks() throws Exception {
+
+
+        long customerId = persistRandomCustomer();
+
+        List<Book> beforeBorrow = customerService.getBorrowedBooksByCustomerId(customerId);
+        assertThat(beforeBorrow).asList()
+                .size()
+                .isEqualTo(0);
+
+        long bookOneId = persistRandomBook();
+        long bookTwoId = persistRandomBook();
+        long bookThreeId = persistRandomBook();
+
+        customerService.borrowBook(bookOneId, customerId);
+        customerService.borrowBook(bookTwoId, customerId);
+        customerService.borrowBook(bookThreeId, customerId);
+
+        List<Book> afterBorrow = customerService.getBorrowedBooksByCustomerId(customerId);
+        assertThat(afterBorrow).asList()
+                .size()
+                .isEqualTo(3);
+    }
+
 
     @Test
     public void testEmailMustBeUnique() {

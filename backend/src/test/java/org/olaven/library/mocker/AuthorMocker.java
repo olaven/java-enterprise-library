@@ -14,7 +14,7 @@ public class AuthorMocker extends Mocker<Author> {
 
         author.setGivenName("given name");
         author.setFamilyName("family name");
-        author.setBooks(new ArrayList<Book>());
+        author.setBooks(new ArrayList<>());
 
         return author;
     }

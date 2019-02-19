@@ -1,5 +1,9 @@
 package org.olaven.library.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.Lock;
 
 import javax.persistence.*;
@@ -14,6 +18,10 @@ import java.util.Objects;
         @NamedQuery(name = Book.GET_BOOK_BY_ID, query = "select book from Book book where book.id = :id")
 })
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Book {
 
     public static final String GET_ALL_BOOKS = "GET_ALL_BOOKS";
@@ -36,69 +44,4 @@ public class Book {
 
     @ManyToOne
     private Customer borrower;
-
-    public Book() {
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Customer getBorrower() {
-        return borrower;
-    }
-
-    public void setBorrower(Customer borrower) {
-        this.borrower = borrower;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Book)) return false;
-        Book book = (Book) o;
-        return getId() == book.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getIsbn(), getTitle(), getAuthors(), getBorrower());
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }

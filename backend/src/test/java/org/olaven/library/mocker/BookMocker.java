@@ -13,14 +13,12 @@ public class BookMocker extends Mocker<Book> {
 
     @Override
     public Book getOne() {
-        Book book = new Book();
 
-        book.setAuthors(new ArrayList<Author>());
-        book.setIsbn(randomString(10));
-        book.setTitle(randomString(5));
-
-
-        return book;
+        return Book.builder()
+                .authors(new ArrayList<>())
+                .isbn(randomString(10))
+                .title(randomString(5))
+                .build();
     }
 }
 

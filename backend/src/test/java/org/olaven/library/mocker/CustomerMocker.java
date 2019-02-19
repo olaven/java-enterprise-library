@@ -11,13 +11,11 @@ public class CustomerMocker extends Mocker {
     @Override
     public Customer getOne() {
 
-        Customer customer = new Customer();
-
-        customer.setGivenName("given name");
-        customer.setFamilyName("family name");
-        customer.setBorrowedBooks(new ArrayList<>());
-        customer.setEmail(randomString(5) + "@mail.com");
-
-        return customer;
+        return Customer.builder()
+                .givenName("given name")
+                .familyName("family name")
+                .borrowedBooks(new ArrayList<>())
+                .email(randomString(5) + "@mail.com")
+                .build();
     }
 }

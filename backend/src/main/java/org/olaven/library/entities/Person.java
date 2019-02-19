@@ -1,8 +1,8 @@
 package org.olaven.library.entities;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
+@SuperBuilder
 @NoArgsConstructor
 @Data
 public class Person {

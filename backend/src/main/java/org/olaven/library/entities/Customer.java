@@ -1,6 +1,7 @@
 package org.olaven.library.entities;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,7 +13,7 @@ import java.util.Objects;
         @NamedQuery(name = Customer.GET_BORROWED_BOOKS, query = "select book from Book book where exists (select b from Book b where b.borrower.id = :id)")
 })
 @Entity
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -21,11 +22,11 @@ public class Customer extends Person {
 
     public static final String GET_CUSTOMER_BY_ID = "GET_CUSTOMER_BY_ID";
     public static final String GET_BORROWED_BOOKS = "GET_BORROWED_BOOKS";
+
     @Email
     @Column(unique = true)
     private String email;
 
     @OneToMany(mappedBy = "borrower")
     private List<Book> borrowedBooks;
-
 }

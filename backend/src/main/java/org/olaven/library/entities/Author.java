@@ -1,6 +1,7 @@
 package org.olaven.library.entities;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -13,6 +14,7 @@ import java.util.List;
         @NamedQuery(name = Author.GET_ALL_AUTHORS, query = "select author from Author author")
 })
 @Entity
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -24,4 +26,5 @@ public class Author extends Person {
     @NotNull
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
+
 }

@@ -1,12 +1,17 @@
 package org.olaven.library.services;
 
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.olaven.library.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class MailService {
+
+    @Autowired
+    BookService bookService;
 
     @Scheduled(cron = "0 0 9 * * ?")
     public void notifyCustomersAboutUpcomingDelivery() {
@@ -20,8 +25,4 @@ public class MailService {
         // mail them a notice
     }
 
-    @Scheduled(cron = "* * * * * *")
-    public void justPrintingHelloAllTheTime() {
-        System.out.println("hello");
-    }
 }

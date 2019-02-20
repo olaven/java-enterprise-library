@@ -28,7 +28,7 @@ public class Book {
     public static final String GET_BOOK_BY_ID = "GET_BOOK_BY_ID";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull

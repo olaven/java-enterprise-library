@@ -18,6 +18,7 @@
         <version.springboot>2.1.0.RELEASE</version.springboot>
         <version.h2>1.4.197</version.h2>
         <version.junit>5.2.0</version.junit>
+        <version.postgresql>9.4-1203-jdbc4</version.postgresql>
     </properties>
 
     <dependencyManagement>
@@ -40,6 +41,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${version.springboot}</version>
+            </dependency>
+
+
+            <!-- Database driver: https://mvnrepository.com/artifact/postgresql/postgresql -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${version.postgresql}</version>
             </dependency>
 
             <!-- Fluent object building -->

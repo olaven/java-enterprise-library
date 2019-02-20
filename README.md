@@ -19,8 +19,25 @@ Go through every topic thoroughly in Spring.
 - [ ] Lesson 11
 - [ ] Lesson 12
 
+## Setup 
+* configure PostgreSQL locally
+* create a database called "spring-library" 
+* in this project, create `backend/src/main/resources/application.properties `, and add the following lines:
+    * replace username and password with your own PostgreSQL user   
+```
 
-my own annotation for test config? 
-A scheduled startup-bean sending messages to people 
-who have not delivered their book on time  
- 
+# datasource config
+spring.datasource.url=jdbc:postgresql://localhost:5432/spring-library
+spring.datasource.username=__YOUR_USERNAME__
+spring.datasource.password=__YOUR_PASSWORD
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# jpa config
+spring.jpa.generate-ddl=true
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults = false
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
+```
+
+## Notes: 
+Using posgresql: 
+use command `psql` and \h and \? for help

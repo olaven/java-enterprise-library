@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.repository.Lock;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = Book.GET_ALL_BOOKS, query = "select book from Book book"),

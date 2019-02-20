@@ -1,7 +1,6 @@
 package org.olaven.library.services;
 
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.olaven.library.entities.Book;
 import org.olaven.library.entities.Record;

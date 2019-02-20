@@ -1,12 +1,10 @@
 package org.olaven.library.services;
 
 import org.olaven.library.entities.Author;
-import org.olaven.library.entities.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 

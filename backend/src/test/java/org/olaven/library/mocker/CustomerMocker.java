@@ -2,8 +2,6 @@ package org.olaven.library.mocker;
 
 import org.olaven.library.entities.Customer;
 
-import java.util.ArrayList;
-
 import static org.olaven.library.StringUtil.randomString;
 
 public class CustomerMocker extends Mocker {

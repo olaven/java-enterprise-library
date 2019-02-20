@@ -41,7 +41,4 @@ public class Book {
     @NotNull
     @ManyToMany
     private List<Author> authors;
-
-    @ManyToOne
-    private Customer borrower;
 }

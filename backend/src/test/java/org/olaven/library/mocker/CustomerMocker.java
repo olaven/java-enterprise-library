@@ -14,7 +14,6 @@ public class CustomerMocker extends Mocker {
         return Customer.builder()
                 .givenName("given name")
                 .familyName("family name")
-                .borrowedBooks(new ArrayList<>())
                 .email(randomString(5) + "@mail.com")
                 .build();
     }

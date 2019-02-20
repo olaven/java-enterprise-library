@@ -20,6 +20,9 @@ Go through every topic thoroughly in Spring.
 - [ ] Lesson 12
 
 ## Setup 
+### IDE 
+* [lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
+### Database
 * configure PostgreSQL locally
 * create a database called "spring-library" 
 * in this project, create `backend/src/main/resources/application.properties `, and add the following lines:
@@ -41,3 +44,6 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
 ## Notes: 
 Using posgresql: 
 use command `psql` and \h and \? for help
+
+Books on records throw exception silently. Find out why. I suspect lazy 
+loading has something to do with it.  

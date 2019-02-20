@@ -11,8 +11,7 @@ import javax.validation.constraints.Email;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Customer.GET_CUSTOMER_BY_ID, query = "select customer from Customer customer where id = :id"),
-        @NamedQuery(name = Customer.GET_BORROWED_BOOKS, query = "select book from Book book where exists (select b from Book b where b.borrower.id = :id)")
+        @NamedQuery(name = Customer.GET_CUSTOMER_BY_ID, query = "select customer from Customer customer where id = :id")
 })
 @Entity
 @SuperBuilder
@@ -28,7 +27,4 @@ public class Customer extends Person {
     @Email
     @Column(unique = true)
     private String email;
-
-    @OneToMany(mappedBy = "borrower")
-    private List<Book> borrowedBooks;
 }

@@ -29,7 +29,7 @@ public class Record {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @ManyToOne
     private Book book;

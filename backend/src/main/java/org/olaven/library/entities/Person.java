@@ -25,7 +25,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
 
     @NotBlank
     @Size(min = 2, max = 100)

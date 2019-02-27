@@ -9,10 +9,11 @@ public class CustomerMocker extends Mocker {
     @Override
     public Customer getOne() {
 
-        return Customer.builder()
-                .givenName("given name")
-                .familyName("family name")
-                .email(randomString(5) + "@mail.com")
-                .build();
+        Customer customer = new Customer();
+        customer.setGivenName("given name");
+        customer.setFamilyName("family name");
+        customer.setEmail(randomString(5) + "@mail.com");
+
+        return customer;
     }
 }

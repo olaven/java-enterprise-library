@@ -7,6 +7,7 @@ import org.olaven.library.entities.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -36,12 +37,11 @@ public class BorrowingService {
         Book book = bookService.getBookById(bookId, false);
         Customer customer = customerService.getCustomerById(customerId);
 
-        Record record = Record.builder()
-                .book(book)
-                .customer(customer)
-                .date(new Date())
-                .status(BookStatus.BORROWED)
-                .build();
+        Record record = new Record();
+        record.setBook(book);
+        record.setCustomer(customer);
+        record.setDate(new Date());
+        record.setStatus(BookStatus.BORROWED);
 
         entityManager.persist(record);
     }
@@ -95,5 +95,9 @@ public class BorrowingService {
         query.setParameter("status", BookStatus.BORROWED);
 
         return query.getResultList().size() > 0;
+    }
+
+    public List<Record> getRecordsPastDelivery() {
+        throw new NotImplementedException();
     }
 }

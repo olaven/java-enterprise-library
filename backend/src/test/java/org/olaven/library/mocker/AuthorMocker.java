@@ -8,10 +8,11 @@ public class AuthorMocker extends Mocker<Author> {
 
     public Author getOne() {
 
-        return Author.builder()
-                .givenName("given name")
-                .familyName("family name")
-                .books(new ArrayList<>())
-                .build();
+        Author author = new Author();
+        author.setGivenName("given name");
+        author.setFamilyName("family name");
+        author.setBooks(new ArrayList<>());
+
+        return author;
     }
 }

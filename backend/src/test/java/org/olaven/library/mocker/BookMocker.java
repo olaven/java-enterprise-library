@@ -11,11 +11,12 @@ public class BookMocker extends Mocker<Book> {
     @Override
     public Book getOne() {
 
-        return Book.builder()
-                .authors(new ArrayList<>())
-                .isbn(randomString(10))
-                .title(randomString(5))
-                .build();
+        Book book = new Book();
+        book.setAuthors(new ArrayList<>());
+        book.setIsbn(randomString(10));
+        book.setTitle(randomString(10));
+
+        return book;
     }
 }
 

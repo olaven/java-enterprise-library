@@ -1,10 +1,10 @@
 package org.olaven.library.mocker;
 
-import org.olaven.library.entities.Book;
+import org.olaven.library.backend.entities.Book;
 
 import java.util.ArrayList;
 
-import static org.olaven.library.StringUtil.randomString;
+import static org.olaven.library.backend.StringUtil.randomString;
 
 public class BookMocker extends Mocker<Book> {
 

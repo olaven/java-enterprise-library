@@ -1,4 +1,4 @@
-package org.olaven.library;
+package org.olaven.library.backend;
 
 public enum BookStatus {
     BORROWED, AVAILABLE;

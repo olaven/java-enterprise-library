@@ -1,6 +1,6 @@
 package org.olaven.library.mocker;
 
-import org.olaven.library.entities.Author;
+import org.olaven.library.backend.entities.Author;
 
 import java.util.ArrayList;
 

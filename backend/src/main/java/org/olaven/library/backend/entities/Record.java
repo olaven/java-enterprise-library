@@ -1,6 +1,6 @@
-package org.olaven.library.entities;
+package org.olaven.library.backend.entities;
 
-import org.olaven.library.BookStatus;
+import org.olaven.library.backend.BookStatus;
 
 import javax.persistence.*;
 import java.util.Date;

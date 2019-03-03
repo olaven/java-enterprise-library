@@ -1,8 +1,8 @@
 package org.olaven.library.mocker;
 
-import org.olaven.library.entities.Customer;
+import org.olaven.library.backend.entities.Customer;
 
-import static org.olaven.library.StringUtil.randomString;
+import static org.olaven.library.backend.StringUtil.randomString;
 
 public class CustomerMocker extends Mocker {
 

@@ -1,4 +1,4 @@
-package org.olaven.library;
+package org.olaven.library.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

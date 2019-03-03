@@ -1,6 +1,6 @@
-package org.olaven.library.services;
+package org.olaven.library.backend.services;
 
-import org.olaven.library.entities.Record;
+import org.olaven.library.backend.entities.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;

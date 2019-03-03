@@ -1,7 +1,7 @@
-package org.olaven.library.services;
+package org.olaven.library.backend.services;
 
 import org.junit.jupiter.api.Test;
-import org.olaven.library.entities.Customer;
+import org.olaven.library.backend.entities.Customer;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 

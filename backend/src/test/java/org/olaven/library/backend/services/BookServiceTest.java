@@ -1,8 +1,8 @@
-package org.olaven.library.services;
+package org.olaven.library.backend.services;
 
 import org.junit.jupiter.api.Test;
-import org.olaven.library.entities.Author;
-import org.olaven.library.entities.Book;
+import org.olaven.library.backend.entities.Author;
+import org.olaven.library.backend.entities.Book;
 import org.olaven.library.mocker.AuthorMocker;
 
 import java.util.ArrayList;

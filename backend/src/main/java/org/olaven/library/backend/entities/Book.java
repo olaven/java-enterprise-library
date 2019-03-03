@@ -1,4 +1,4 @@
-package org.olaven.library.entities;
+package org.olaven.library.backend.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

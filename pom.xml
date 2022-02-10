@@ -20,7 +20,7 @@
         <version.springboot>2.1.3.RELEASE</version.springboot>
         <version.h2>1.4.197</version.h2>
         <version.junit>5.2.0</version.junit>
-        <version.postgresql>9.4-1203-jdbc4</version.postgresql>
+        <version.postgresql>42.2.25</version.postgresql>
         <version.joinfaces>3.2.3</version.joinfaces>
     </properties>
 
